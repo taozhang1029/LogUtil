@@ -1,22 +1,19 @@
 package com.kingsley.log.config;
 
-import org.springframework.context.annotation.Configuration;
+import ch.qos.logback.core.PropertyDefinerBase;
+import com.kingsley.log.constants.LogDirEnum;
 
 /**
  * 配置日志输出目录
  *
- * Created by zhangtao552 on 2021/7/16.
+ * @author zhangtao552
+ * @date 2021/7/16
  */
-@Configuration
-public class LogDirConfig extends BaseConfig {
+
+public class LogDirConfig extends PropertyDefinerBase {
 
     @Override
     public String getPropertyValue() {
-        System.out.println("logDir = " + logDir);
-        return logDir == null ? "logs" : logDir;
-    }
-
-    public String getLogDir() {
-        return logDir;
+        return ConfigParser.logDir == null ? LogDirEnum.DEFAULT_LOG_DIR.getDir() : ConfigParser.logDir;
     }
 }

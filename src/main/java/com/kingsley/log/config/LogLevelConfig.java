@@ -1,17 +1,15 @@
 package com.kingsley.log.config;
 
-import com.kingsley.log.level.LogLevelEnum;
-import org.springframework.stereotype.Component;
+import ch.qos.logback.core.PropertyDefinerBase;
+import com.kingsley.log.constants.LevelEnum;
 
-@Component
-public class LogLevelConfig extends BaseConfig {
+/**
+ * @author kingsley
+ */
+public class LogLevelConfig extends PropertyDefinerBase {
 
     @Override
     public String getPropertyValue() {
-        LogLevelEnum level;
-        if (levelDesc == null || (level = LogLevelEnum.getLevelFromDesc(this.levelDesc)) == null) {
-            return LogLevelEnum.INFO.getLevel();
-        }
-        return level.getLevel();
+        return LevelEnum.confirm(LevelEnum.confirm(ConfigParser.level));
     }
 }

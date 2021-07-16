@@ -5,10 +5,13 @@
     <define name="LOG_DIR" class="com.kingsley.log.config.LogDirConfig"/>
     <define name="LOG_LEVEL" class="com.kingsley.log.config.LogLevelConfig"/>
     <define name="APP_NAME" class="com.kingsley.log.config.ContextNameConfig"/>
+    <define name="FILE_LOG_PATTERN" class="com.kingsley.log.config.FilePatternConfig"/>
+    <define name="CONSOLE_LOG_PATTERN" class="com.kingsley.log.config.ConsolePatternConfig"/>
+    <define name="SUMMARY_NAME" class="com.kingsley.log.config.SummaryLogNameConfig"/>
 
-    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger - %msg%n"/>
+    <property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN}"/>
     <!-- 彩色日志格式 -->
-    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %boldYellow([%thread]) %cyan(%logger) %msg%n"/>
+    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN}"/>
 
     <contextName>${APP_NAME}</contextName>
 
@@ -19,7 +22,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_DIR}/summary.log</file>
+        <file>${LOG_DIR}/${SUMMARY_NAME}.log</file>
         <append>true</append>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>

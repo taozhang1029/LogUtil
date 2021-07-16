@@ -1,18 +1,22 @@
 package com.kingsley.log.config;
 
-import org.springframework.context.annotation.Configuration;
+import ch.qos.logback.core.PropertyDefinerBase;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+
+/**
+ * @author kingsley
+ */
 @Component
-public class ContextNameConfig extends BaseConfig{
+public class ContextNameConfig extends PropertyDefinerBase {
 
     @Override
     public String getPropertyValue() {
-        System.out.println("contextName = " + contextName);
-        return contextName == null ? "LogUtil" : contextName;
-    }
-
-    public String getContextName() {
-        return contextName;
+        if (ConfigParser.contextName != null) {
+            return ConfigParser.contextName;
+        }
+        String projectPath = System.getProperty("user.dir");
+        return projectPath.substring(projectPath.lastIndexOf(File.separator) + 1);
     }
 }

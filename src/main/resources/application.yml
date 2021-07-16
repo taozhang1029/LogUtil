@@ -1,0 +1,8 @@
+log:
+  context: projectName
+  dir: log
+  level: info
+  summary: summary
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) %boldYellow([%thread]) %cyan(%logger) %msg%n"

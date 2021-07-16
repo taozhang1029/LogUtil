@@ -1,13 +1,13 @@
 package com.kingsley.log;
 
-import com.kingsley.log.config.ContextNameConfig;
-import com.kingsley.log.config.LogDirConfig;
-import com.kingsley.log.config.LogLevelConfig;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
+/**
+ * @author kingsley
+ */
 @Configuration
-@Import({ContextNameConfig.class, LogDirConfig.class, LogLevelConfig.class})
+@ComponentScan("com.kingsley.log.config")
 public class LogConfiguration {
 
 }
