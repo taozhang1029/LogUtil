@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kingsley</groupId>
-    <artifactId>log-util</artifactId>
+    <artifactId>color-log-util</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
