@@ -1,12 +1,7 @@
 package com.kingsley.log.test;
 
-import com.kingsley.log.LogConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 /**
  * @Class LogTest
  * @Time 2021/7/17 上午12:48
@@ -15,8 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @Description 日志工具测试类
  */
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = LogConfiguration.class)
 public class LogTest {
 
     @Test
