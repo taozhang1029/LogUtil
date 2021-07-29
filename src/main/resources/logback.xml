@@ -8,6 +8,7 @@
     <define name="FILE_LOG_PATTERN" class="com.kingsley.log.config.FilePatternConfig"/>
     <define name="CONSOLE_LOG_PATTERN" class="com.kingsley.log.config.ConsolePatternConfig"/>
     <define name="SUMMARY_NAME" class="com.kingsley.log.config.SummaryLogNameConfig"/>
+    <define name="DAY_LOG_FILE_NAME_DEFAULT_PATTERN" class="com.kingsley.log.config.DayLogFileNameConfig"/>
 
     <property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN}"/>
     <!-- 彩色日志格式 -->
@@ -31,7 +32,7 @@
 
     <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/${DAY_LOG_FILE_NAME_DEFAULT_PATTERN}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -40,9 +41,9 @@
     </appender>
 
     <!-- 使用root的appender-ref -->
-    <logger name="com.kingsley.leetcode.api.UnionFind" level="DEBUG" additivity="false">
-        <appender-ref ref="STDOUT"/>
-    </logger>
+    <!--<logger name="com.kingsley.**" level="DEBUG" additivity="false">-->
+    <!--    <appender-ref ref="STDOUT"/>-->
+    <!--</logger>-->
 
     <root level="${LOG_LEVEL}">
         <appender-ref ref="STDOUT"/>

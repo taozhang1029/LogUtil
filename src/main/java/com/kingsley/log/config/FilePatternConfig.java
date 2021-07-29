@@ -1,7 +1,7 @@
 package com.kingsley.log.config;
 
 import ch.qos.logback.core.PropertyDefinerBase;
-import com.kingsley.log.constants.PatternEnum;
+import com.kingsley.log.constants.ConfigConstants;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,6 +16,6 @@ public class FilePatternConfig extends PropertyDefinerBase {
 
     @Override
     public String getPropertyValue() {
-        return ConfigParser.filePattern == null ? PatternEnum.FILE_PATTERN.getPattern() : ConfigParser.filePattern;
+        return ConfigParser.filePattern == null ? ConfigConstants.FILE_LOG_PATTERN : ConfigParser.filePattern;
     }
 }

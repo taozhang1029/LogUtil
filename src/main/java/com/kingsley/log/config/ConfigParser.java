@@ -25,6 +25,8 @@ public class ConfigParser {
 
     public static String consolePattern;
 
+    public static String dayLogFileNamePattern;
+
     static {
         InputStream is = ConfigParser.class.getClassLoader().getResourceAsStream("application.properties");
         if (is != null) {
@@ -36,6 +38,7 @@ public class ConfigParser {
                 level = confirm(pro.getProperty("log.level"));
                 filePattern = confirm(pro.getProperty("log.pattern.file"));
                 consolePattern = confirm(pro.getProperty("log.pattern.console"));
+                dayLogFileNamePattern = confirm(pro.getProperty("log.pattern.day"));
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -78,6 +81,7 @@ public class ConfigParser {
                         if (patterns != null) {
                             filePattern = confirm(patterns.getOrDefault("file", null));
                             consolePattern = confirm(patterns.getOrDefault("console", null));
+                            dayLogFileNamePattern = confirm(patterns.getOrDefault("day", null));
                         }
                     }
                 } catch (Exception e) {
