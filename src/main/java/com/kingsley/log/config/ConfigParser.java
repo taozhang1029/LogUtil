@@ -51,7 +51,7 @@ public class ConfigParser {
         } else {
             is = ConfigParser.class.getClassLoader().getResourceAsStream("application.yml");
             if (is == null) {
-                is = ConfigParser.class.getClassLoader().getResourceAsStream("application.yml");
+                is = ConfigParser.class.getClassLoader().getResourceAsStream("application.yaml");
             }
             if (is != null) {
                 try {
