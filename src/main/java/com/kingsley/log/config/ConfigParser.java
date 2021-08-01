@@ -1,8 +1,14 @@
 package com.kingsley.log.config;
 
 import com.alibaba.fastjson.JSON;
+import com.kingsley.log.constants.ConfigConstants;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.ho.yaml.Yaml;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -11,23 +17,46 @@ import java.util.Properties;
 /**
  * @author kingsley
  */
+@Getter
+@Component
+@Slf4j
 public class ConfigParser {
 
-    public static String logDir;
+    @Autowired(required = false)
+    private BaseConfig config;
 
-    public static String contextName;
+    private String logDir;
 
-    public static String level;
+    private String contextName;
 
-    public static String summaryLogName;
+    private String level;
 
-    public static String filePattern;
+    private String summaryLogName;
 
-    public static String consolePattern;
+    private String filePattern;
 
-    public static String dayLogFileNamePattern;
+    private String consolePattern;
 
-    static {
+    private String dayLogFileNamePattern;
+
+    @PostConstruct
+    private void getConfig() {
+        if (config == null) {
+            log.info("从文件中获取日志配置");
+            getConfigFromFile();
+        } else {
+            log.info("从容器中的BaseConfig bean对象获取日志配置");
+            this.logDir = config.getLogDir() == null ? ConfigConstants.DEFAULT_LOG_DIR : config.getLogDir();
+            this.contextName = config.getContextName() == null ? ConfigConstants.DEFAULT_CONTEXT_NAME : config.getContextName();
+            this.level = config.getLevel() == null ? ConfigConstants.DEFAULT_LOG_LEVEL : config.getLevel();
+            this.summaryLogName = config.getSummaryLogName() == null ? ConfigConstants.SUMMARY_LOG_DEFAULT_NAME : config.getSummaryLogName();
+            this.filePattern = config.getFilePattern()== null ? ConfigConstants.FILE_LOG_PATTERN : config.getFilePattern();
+            this.consolePattern = config.getConsolePattern()== null ? ConfigConstants.CONSOLE_LOG_PATTERN : config.getConsolePattern();
+            this.dayLogFileNamePattern = config.getDayLogFileNamePattern()== null ? ConfigConstants.DAY_LOG_FILE_NAME_DEFAULT_PATTERN : config.getDayLogFileNamePattern();
+        }
+    }
+
+    private void getConfigFromFile() {
         InputStream is = ConfigParser.class.getClassLoader().getResourceAsStream("application.properties");
         if (is != null) {
             try {
@@ -97,7 +126,7 @@ public class ConfigParser {
         }
     }
 
-    private static String confirm(String s) {
+    private String confirm(String s) {
         return (s == null || "".equals(s.trim().replace(" ", "").replace("\"", ""))) ? null : s;
     }
 

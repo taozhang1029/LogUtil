@@ -2,7 +2,10 @@ package com.kingsley.log.config;
 
 import ch.qos.logback.core.PropertyDefinerBase;
 import com.kingsley.log.constants.ConfigConstants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @Description
@@ -15,8 +18,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class DayLogFileNameConfig extends PropertyDefinerBase {
 
+    @Autowired
+    private ConfigParser configParser;
+
+    private String dayLogFileNamePattern;
+
+    @PostConstruct
+    public void getLogDir(){
+        this.dayLogFileNamePattern = configParser.getDayLogFileNamePattern();
+    }
+
     @Override
+    @PostConstruct
     public String getPropertyValue() {
-        return ConfigParser.dayLogFileNamePattern != null ? ConfigParser.dayLogFileNamePattern : ConfigConstants.DAY_LOG_FILE_NAME_DEFAULT_PATTERN;
+        return dayLogFileNamePattern != null ? dayLogFileNamePattern : ConfigConstants.DAY_LOG_FILE_NAME_DEFAULT_PATTERN;
     }
 }

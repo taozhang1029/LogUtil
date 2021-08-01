@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ParserExceptionHandler {
 
-    @Pointcut("execution(public * com.kingsley.log.config.ConfigParser(..))")
+    @Pointcut("execution(* com.kingsley.log.config.ConfigParser.*(..))")
     public void config(){
 
     }
