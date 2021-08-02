@@ -1,11 +1,10 @@
-package com.kingsley.log.config;
+package com.kingsley.log.domain;
 
 import ch.qos.logback.core.PropertyDefinerBase;
 import com.kingsley.log.constants.ConfigConstants;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import static com.kingsley.log.parser.ConfigParser.level;
 
 /**
  * @author kingsley
@@ -13,18 +12,7 @@ import javax.annotation.PostConstruct;
 @Component
 public class LogLevelConfig extends PropertyDefinerBase {
 
-    @Autowired
-    private ConfigParser configParser;
-
-    private String level;
-
-    @PostConstruct
-    public void getLogDir(){
-        this.level = configParser.getLevel();
-    }
-
     @Override
-    @PostConstruct
     public String getPropertyValue() {
         return ConfigConstants.getLogLevel(level);
     }

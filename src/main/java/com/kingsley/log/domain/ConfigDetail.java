@@ -1,4 +1,4 @@
-package com.kingsley.log.config;
+package com.kingsley.log.domain;
 
 import lombok.Data;
 

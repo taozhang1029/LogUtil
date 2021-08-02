@@ -1,4 +1,4 @@
-package com.kingsley.log.config;
+package com.kingsley.log.domain;
 
 import ch.qos.logback.core.PropertyDefinerBase;
 import com.kingsley.log.constants.ConfigConstants;
@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+
+import static com.kingsley.log.parser.ConfigParser.filePattern;
 
 /**
  * @Class FilePatternConfig
@@ -17,18 +19,7 @@ import javax.annotation.PostConstruct;
 @Component
 public class FilePatternConfig extends PropertyDefinerBase {
 
-    @Autowired
-    private ConfigParser configParser;
-
-    private String filePattern;
-
-    @PostConstruct
-    public void getLogDir(){
-        this.filePattern = configParser.getFilePattern();
-    }
-
     @Override
-    @PostConstruct
     public String getPropertyValue() {
         return filePattern == null ? ConfigConstants.FILE_LOG_PATTERN : filePattern;
     }
