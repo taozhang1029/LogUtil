@@ -2,13 +2,13 @@
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 
     // 通过DefineDir类映射自定义变量, 实现动态修改logback的日志配置参数
-    <define name="LOG_DIR" class="com.kingsley.log.config.LogDirConfig"/>
-    <define name="LOG_LEVEL" class="com.kingsley.log.config.LogLevelConfig"/>
-    <define name="APP_NAME" class="com.kingsley.log.config.ContextNameConfig"/>
-    <define name="FILE_LOG_PATTERN" class="com.kingsley.log.config.FilePatternConfig"/>
-    <define name="CONSOLE_LOG_PATTERN" class="com.kingsley.log.config.ConsolePatternConfig"/>
-    <define name="SUMMARY_NAME" class="com.kingsley.log.config.SummaryLogNameConfig"/>
-    <define name="DAY_LOG_FILE_NAME_DEFAULT_PATTERN" class="com.kingsley.log.config.DayLogFileNameConfig"/>
+    <define name="LOG_DIR" class="com.kingsley.log.domain.LogDirConfig"/>
+    <define name="LOG_LEVEL" class="com.kingsley.log.domain.LogLevelConfig"/>
+    <define name="APP_NAME" class="com.kingsley.log.domain.ContextNameConfig"/>
+    <define name="FILE_LOG_PATTERN" class="com.kingsley.log.domain.FilePatternConfig"/>
+    <define name="CONSOLE_LOG_PATTERN" class="com.kingsley.log.domain.ConsolePatternConfig"/>
+    <define name="SUMMARY_NAME" class="com.kingsley.log.domain.SummaryLogNameConfig"/>
+    <define name="DAY_LOG_FILE_NAME_DEFAULT_PATTERN" class="com.kingsley.log.domain.DayLogFileNameConfig"/>
 
     <property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN}"/>
     <!-- 彩色日志格式 -->

@@ -1,6 +1,7 @@
-package com.kingsley.log.config;
+package com.kingsley.log.parser;
 
 import com.alibaba.fastjson.JSON;
+import com.kingsley.log.config.ConfigDetail;
 import org.ho.yaml.Yaml;
 
 import java.io.IOException;
