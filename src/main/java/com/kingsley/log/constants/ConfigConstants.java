@@ -26,6 +26,9 @@ public class ConfigConstants {
     // 默认日志级别
     public static final String DEFAULT_LOG_LEVEL = "INFO";
 
+    // 默认上下文名称
+    public static final String DEFAULT_CONTEXT_NAME = "color-log";
+
     // 日志级别常量
     public static final Set<String> LOG_LEVELS = new HashSet<>(Arrays.asList("VERBOSE", "DEBUG", "INFO", "WARN", "ERROR"));
 
