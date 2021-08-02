@@ -13,7 +13,7 @@ import static com.kingsley.log.parser.ConfigParser.dayLogFileNamePattern;
  * @Description
  * @Time : 2021/7/30 2:12
  * @Author : Kingsley
- * @Project : color-log-util
+ * @Project : color-log
  * @File : DayLogFileNameConfig.java
  * @IDE : IntelliJ IDEA
  */

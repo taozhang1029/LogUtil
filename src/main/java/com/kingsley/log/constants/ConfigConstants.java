@@ -8,7 +8,7 @@ import java.util.Set;
  * @Description
  * @Time : 2021/7/30 1:46
  * @Author : Kingsley
- * @Project : color-log-util
+ * @Project : color-log
  * @File : ConfigConstants.java
  * @IDE : IntelliJ IDEA
  */
