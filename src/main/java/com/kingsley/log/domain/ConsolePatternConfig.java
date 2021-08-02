@@ -1,11 +1,10 @@
-package com.kingsley.log.config;
+package com.kingsley.log.domain;
 
 import ch.qos.logback.core.PropertyDefinerBase;
 import com.kingsley.log.constants.ConfigConstants;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
+import static com.kingsley.log.parser.ConfigParser.consolePattern;
 
 /**
  * @Class ConsolePatternConfig
@@ -16,16 +15,6 @@ import javax.annotation.PostConstruct;
  */
 @Component
 public class ConsolePatternConfig extends PropertyDefinerBase {
-
-    @Autowired
-    private ConfigParser configParser;
-
-    private String consolePattern;
-
-    @PostConstruct
-    public void getLogDir(){
-        this.consolePattern = configParser.getConsolePattern();
-    }
 
     @Override
     public String getPropertyValue() {
