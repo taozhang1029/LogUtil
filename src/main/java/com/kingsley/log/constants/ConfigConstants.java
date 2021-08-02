@@ -30,7 +30,7 @@ public class ConfigConstants {
     public static final String DEFAULT_CONTEXT_NAME = "color-log";
 
     // 日志级别常量
-    public static final Set<String> LOG_LEVELS = new HashSet<>(Arrays.asList("VERBOSE", "DEBUG", "INFO", "WARN", "ERROR"));
+    public static final Set<String> LOG_LEVELS = new HashSet<>(Arrays.asList("DEBUG", "INFO", "WARN", "ERROR"));
 
     // 获取日志级别
     public static String getLogLevel(String level) {
