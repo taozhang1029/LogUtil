@@ -12,7 +12,7 @@ import java.util.Map;
  * @Description 配置实体类
  */
 @Data
-public class ConfigDetail {
+public class YamlConfig {
 
     private String context;
 

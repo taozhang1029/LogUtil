@@ -1,10 +1,9 @@
-package com.kingsley.log.domain;
+package com.kingsley.log.config;
 
 import ch.qos.logback.core.PropertyDefinerBase;
 import com.kingsley.log.constants.ConfigConstants;
+import com.kingsley.log.parser.ConfigParser;
 import org.springframework.stereotype.Component;
-
-import static com.kingsley.log.parser.ConfigParser.level;
 
 /**
  * @author kingsley
@@ -14,6 +13,6 @@ public class LogLevelConfig extends PropertyDefinerBase {
 
     @Override
     public String getPropertyValue() {
-        return ConfigConstants.getLogLevel(level);
+        return ConfigConstants.getLogLevel(ConfigParser.baseConfig.getLevel());
     }
 }

@@ -1,12 +1,12 @@
 package com.kingsley.log.parser;
 
 import com.alibaba.fastjson.JSON;
-import com.kingsley.log.domain.ConfigDetail;
+import com.kingsley.log.domain.BaseConfig;
+import com.kingsley.log.domain.YamlConfig;
 import org.ho.yaml.Yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -14,32 +14,21 @@ import java.util.Properties;
  */
 public class ConfigParser {
 
-    public static String logDir;
-
-    public static String contextName;
-
-    public static String level;
-
-    public static String summaryLogName;
-
-    public static String filePattern;
-
-    public static String consolePattern;
-
-    public static String dayLogFileNamePattern;
+    public static BaseConfig baseConfig;
 
     static {
         InputStream is = ConfigParser.class.getClassLoader().getResourceAsStream("application.properties");
+        BaseConfig.BaseConfigBuilder builder = BaseConfig.builder();
         if (is != null) {
             try {
                 Properties pro = new Properties();
                 pro.load(is);
-                logDir = confirm(pro.getProperty("log.dir"));
-                contextName = confirm(pro.getProperty("log.context"));
-                level = confirm(pro.getProperty("log.level"));
-                filePattern = confirm(pro.getProperty("log.pattern.file"));
-                consolePattern = confirm(pro.getProperty("log.pattern.console"));
-                dayLogFileNamePattern = confirm(pro.getProperty("log.pattern.day"));
+                builder.logDir(confirm(pro.getProperty("log.dir")))
+                    .context(confirm(pro.getProperty("log.context")))
+                    .level(confirm(pro.getProperty("log.level")))
+                    .filePattern(confirm(pro.getProperty("log.pattern.file")))
+                    .consolePattern(confirm(pro.getProperty("log.pattern.console")))
+                    .dayLogPattern(confirm(pro.getProperty("log.pattern.day")));
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -72,18 +61,14 @@ public class ConfigParser {
                             pos++;
                         }
                         s = s.substring(index + 6, pos);
-                        ConfigDetail config = JSON.parseObject(s, ConfigDetail.class);
-                        contextName = confirm(config.getContext());
-                        logDir = confirm(config.getDir());
-                        level = confirm(config.getLevel());
-                        logDir = confirm(config.getDir());
-                        summaryLogName = confirm(config.getSummary());
-                        Map<String, String> patterns = config.getPattern();
-                        if (patterns != null) {
-                            filePattern = confirm(patterns.getOrDefault("file", null));
-                            consolePattern = confirm(patterns.getOrDefault("console", null));
-                            dayLogFileNamePattern = confirm(patterns.getOrDefault("day", null));
-                        }
+                        YamlConfig config = JSON.parseObject(s, YamlConfig.class);
+                        builder.context(confirm(config.getContext()))
+                            .logDir(confirm(config.getDir()))
+                            .level(confirm(config.getLevel()))
+                            .summaryLog(confirm(config.getSummary()))
+                            .filePattern(confirm(config.getPattern().getOrDefault("file", null)))
+                            .consolePattern(confirm(config.getPattern().getOrDefault("console", null)))
+                            .dayLogPattern(confirm(config.getPattern().getOrDefault("day", null)));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -96,6 +81,7 @@ public class ConfigParser {
                 }
             }
         }
+        baseConfig = builder.build();
     }
 
     private static String confirm(String s) {
