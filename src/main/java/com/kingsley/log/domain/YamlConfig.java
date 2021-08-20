@@ -22,6 +22,8 @@ public class YamlConfig {
 
     private String summary;
 
+    private String file;
+
     private Map<String, String> pattern;
 
 }

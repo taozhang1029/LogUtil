@@ -7,6 +7,8 @@ import org.ho.yaml.Yaml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -28,7 +30,8 @@ public class ConfigParser {
                     .level(confirm(pro.getProperty("log.level")))
                     .filePattern(confirm(pro.getProperty("log.pattern.file")))
                     .consolePattern(confirm(pro.getProperty("log.pattern.console")))
-                    .dayLogPattern(confirm(pro.getProperty("log.pattern.day")));
+                    .dayLogPattern(confirm(pro.getProperty("log.pattern.day")))
+                    .useFile(confirm(pro.getProperty("log.file")));
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -62,13 +65,18 @@ public class ConfigParser {
                         }
                         s = s.substring(index + 6, pos);
                         YamlConfig config = JSON.parseObject(s, YamlConfig.class);
+                        Map<String, String> pattern = config.getPattern();
+                        if (pattern == null) {
+                            pattern = new HashMap<>();
+                        }
                         builder.context(confirm(config.getContext()))
                             .logDir(confirm(config.getDir()))
                             .level(confirm(config.getLevel()))
+                            .useFile(confirm(config.getFile()))
                             .summaryLog(confirm(config.getSummary()))
-                            .filePattern(confirm(config.getPattern().getOrDefault("file", null)))
-                            .consolePattern(confirm(config.getPattern().getOrDefault("console", null)))
-                            .dayLogPattern(confirm(config.getPattern().getOrDefault("day", null)));
+                            .filePattern(confirm(pattern.getOrDefault("file", null)))
+                            .consolePattern(confirm(pattern.getOrDefault("console", null)))
+                            .dayLogPattern(confirm(pattern.getOrDefault("day", null)));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 
-    // 通过DefineDir类映射自定义变量, 实现动态修改logback的日志配置参数
     <define name="LOG_DIR" class="com.kingsley.log.config.LogDirConfig"/>
+    <define name="IS_USE_FILE" class="com.kingsley.log.config.UseFileConfig"/>
     <define name="LOG_LEVEL" class="com.kingsley.log.config.LogLevelConfig"/>
     <define name="APP_NAME" class="com.kingsley.log.config.ContextConfig"/>
     <define name="FILE_LOG_PATTERN" class="com.kingsley.log.config.FilePatternConfig"/>
     <define name="CONSOLE_LOG_PATTERN" class="com.kingsley.log.config.ConsolePatternConfig"/>
     <define name="SUMMARY_NAME" class="com.kingsley.log.config.SummaryLogNameConfig"/>
     <define name="DAY_LOG_FILE_NAME_DEFAULT_PATTERN" class="com.kingsley.log.config.DayLogConfig"/>
-
-    <property name="FILE_LOG_PATTERN" value="${FILE_LOG_PATTERN}"/>
-    <!-- 彩色日志格式 -->
-    <property name="CONSOLE_LOG_PATTERN" value="${CONSOLE_LOG_PATTERN}"/>
 
     <contextName>${APP_NAME}</contextName>
 
@@ -22,23 +18,27 @@
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>${LOG_DIR}/${SUMMARY_NAME}.log</file>
-        <append>true</append>
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
+    <if condition='property("IS_USE_FILE").contains("true")'>
+        <then>
+            <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+                <file>${LOG_DIR}/${SUMMARY_NAME}.log</file>
+                <append>true</append>
+                <encoder>
+                    <pattern>${FILE_LOG_PATTERN}</pattern>
+                </encoder>
+            </appender>
 
-    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/${DAY_LOG_FILE_NAME_DEFAULT_PATTERN}.log</fileNamePattern>
-            <maxHistory>30</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
+            <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <fileNamePattern>${LOG_DIR}/${DAY_LOG_FILE_NAME_DEFAULT_PATTERN}.log</fileNamePattern>
+                    <maxHistory>30</maxHistory>
+                </rollingPolicy>
+                <encoder>
+                    <pattern>${FILE_LOG_PATTERN}</pattern>
+                </encoder>
+            </appender>
+        </then>
+    </if>
 
     <!-- 使用root的appender-ref -->
     <!--<logger name="com.kingsley.**" level="DEBUG" additivity="false">-->
@@ -47,7 +47,11 @@
 
     <root level="${LOG_LEVEL}">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="RollingFile"/>
+        <if condition='property("IS_USE_FILE").contains("true")'>
+            <then>
+                <appender-ref ref="FILE"/>
+                <appender-ref ref="RollingFile"/>
+            </then>
+        </if>
     </root>
 </configuration>

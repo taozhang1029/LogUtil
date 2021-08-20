@@ -28,4 +28,6 @@ public class BaseConfig {
 
     private String dayLogPattern;
 
+    private String useFile;
+
 }
