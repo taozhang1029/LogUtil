@@ -1,7 +1,6 @@
 package com.kingsley.log.config;
 
 import ch.qos.logback.core.PropertyDefinerBase;
-import com.kingsley.log.constants.ConfigConstants;
 import com.kingsley.log.parser.ConfigParser;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,6 @@ public class LogDirConfig extends PropertyDefinerBase {
 
     @Override
     public String getPropertyValue() {
-        String logDir = ConfigParser.baseConfig.getLogDir();
-        return logDir == null ? ConfigConstants.DEFAULT_LOG_DIR : logDir;
+        return ConfigParser.baseConfig.getLogDir();
     }
 }

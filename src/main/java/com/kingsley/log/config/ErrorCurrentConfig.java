@@ -4,15 +4,14 @@ import ch.qos.logback.core.PropertyDefinerBase;
 import com.kingsley.log.parser.ConfigParser;
 import org.springframework.stereotype.Component;
 
-
 /**
  * @author kingsley
  */
 @Component
-public class ContextConfig extends PropertyDefinerBase {
+public class ErrorCurrentConfig extends PropertyDefinerBase {
 
     @Override
     public String getPropertyValue() {
-        return ConfigParser.baseConfig.getContext();
+        return ConfigParser.baseConfig.getCurrentErrorName();
     }
 }

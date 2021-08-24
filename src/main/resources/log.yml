@@ -1,0 +1,22 @@
+log:
+  dir:
+  remain:
+  context:
+
+  console:
+    level:
+    pattern:
+
+  file:
+    use:
+    curr:
+    level:
+    pattern:
+    gz:
+
+  error:
+    use:
+    curr:
+    pattern:
+    gz:
+

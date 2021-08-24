@@ -15,15 +15,11 @@ import java.util.Map;
 public class YamlConfig {
 
     private String context;
-
     private String dir;
+    private String remain;
 
-    private String level;
-
-    private String summary;
-
-    private String file;
-
-    private Map<String, String> pattern;
+    private Map<String, String> console;
+    private Map<String, String> file;
+    private Map<String, String> error;
 
 }

@@ -21,10 +21,10 @@ public class LogTest {
 
     @Test
     public void test() {
-        log.error("测试日志工具类");
+        log.debug("测试日志工具类");
         log.info(System.getProperty("os.name"));
-        log.info(System.getProperty("os.version"));
-        log.info(System.getProperty("os.arch"));
+        log.warn(System.getProperty("os.version"));
+        log.error(System.getProperty("os.arch"));
     }
 
 }

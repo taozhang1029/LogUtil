@@ -6,17 +6,13 @@ import com.kingsley.log.parser.ConfigParser;
 import org.springframework.stereotype.Component;
 
 /**
- * @author: zhangtao552
- * @time: 2021/8/20 14:59
- * @description
+ * @author kingsley
  */
 @Component
-public class UseFileConfig extends PropertyDefinerBase {
+public class ConsoleLevelConfig extends PropertyDefinerBase {
 
     @Override
     public String getPropertyValue() {
-        String isUseFile = ConfigParser.baseConfig.getUseFile();
-        return isUseFile != null ? isUseFile : ConfigConstants.NOT_USE_FILE;
+        return ConfigConstants.getLogLevel(ConfigParser.baseConfig.getConsoleLevel());
     }
-
 }

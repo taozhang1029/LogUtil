@@ -5,17 +5,17 @@ import com.kingsley.log.parser.ConfigParser;
 import org.springframework.stereotype.Component;
 
 /**
- * @Class ConsolePatternConfig
+ * @Class FilePatternConfig
  * @Time 2021/7/17 上午3:19
  * @Author kingsley
  * @Project log-util
- * @Description 控制台日志格式配置
+ * @Description 文件日志格式配置
  */
 @Component
-public class ConsolePatternConfig extends PropertyDefinerBase {
+public class ErrorPatternConfig extends PropertyDefinerBase {
 
     @Override
     public String getPropertyValue() {
-        return ConfigParser.baseConfig.getConsolePattern();
+        return ConfigParser.baseConfig.getErrorPattern();
     }
 }

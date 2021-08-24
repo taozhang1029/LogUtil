@@ -7,27 +7,25 @@ import lombok.*;
  * @time: 2021/8/3 9:13
  * @description 基础配置
  */
-@Getter
-@ToString
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class BaseConfig {
 
-    private String logDir;
-
     private String context;
+    private String logDir;
+    private String remainDays;
 
-    private String level;
-
-    private String summaryLog;
-
-    private String filePattern;
-
+    private String consoleLevel;
     private String consolePattern;
 
-    private String dayLogPattern;
-
     private String useFile;
+    private String fileLevel;
+    private String filePattern;
+    private String currentName;
+    private String fileZip;
+
+    private String aloneError;
+    private String currentErrorName;
+    private String errorPattern;
+    private String errorZip;
 
 }

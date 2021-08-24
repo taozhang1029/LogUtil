@@ -1,57 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- https://blog.csdn.net/white_ice/article/details/85065219 -->
+<!-- scan：程序运行时配置文件被修改，是否重新加载。true=重新加载；false=不重新加载；默认为true; -->
+<!-- scanPeriod：监测配置文件被修改的时间间隔，scan属性必须设置为true才可生效；默认为1分钟，默认单位是毫秒； -->
+<!-- debug：是否打印logback程序运行的日志信息。true=打印；false=不打印；默认为false; -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 
-    <define name="LOG_DIR" class="com.kingsley.log.config.LogDirConfig"/>
-    <define name="IS_USE_FILE" class="com.kingsley.log.config.UseFileConfig"/>
-    <define name="LOG_LEVEL" class="com.kingsley.log.config.LogLevelConfig"/>
-    <define name="APP_NAME" class="com.kingsley.log.config.ContextConfig"/>
-    <define name="FILE_LOG_PATTERN" class="com.kingsley.log.config.FilePatternConfig"/>
-    <define name="CONSOLE_LOG_PATTERN" class="com.kingsley.log.config.ConsolePatternConfig"/>
-    <define name="SUMMARY_NAME" class="com.kingsley.log.config.SummaryLogNameConfig"/>
-    <define name="DAY_LOG_FILE_NAME_DEFAULT_PATTERN" class="com.kingsley.log.config.DayLogConfig"/>
+    <!-- 日志上下文名称 -->
+    <define name="context_name" class="com.kingsley.log.config.ContextConfig"/>
+    <!-- 日志保留天数 -->
+    <define name="log_remain" class="com.kingsley.log.config.LogRemainDaysConfig"/>
+    <!-- 文件日志保存文件夹 -->
+    <define name="log_dir" class="com.kingsley.log.config.LogDirConfig"/>
 
-    <contextName>${APP_NAME}</contextName>
+    <!-- 控制台日志最低级别 -->
+    <define name="console_level" class="com.kingsley.log.config.ConsoleLevelConfig"/>
+    <!-- 控制台日志格式 -->
+    <define name="console_pattern" class="com.kingsley.log.config.ConsolePatternConfig"/>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- 是否启用文件日志 -->
+    <define name="is_use_file" class="com.kingsley.log.config.FileConfig"/>
+    <!-- 当前日志名称 -->
+    <define name="log_current_all" class="com.kingsley.log.config.FileCurrentConfig"/>
+    <!-- 文件日志最低级别 -->
+    <define name="file_level" class="com.kingsley.log.config.FileLevelConfig"/>
+    <!-- 文件日志格式 -->
+    <define name="file_pattern" class="com.kingsley.log.config.FilePatternConfig"/>
+    <!-- 归档日志格式 -->
+    <define name="log_gz_all" class="com.kingsley.log.config.FileZipConfig"/>
+
+    <!-- 是否单独记录错误日志 -->
+    <define name="alone_error_log" class="com.kingsley.log.config.ErrorConfig"/>
+    <!-- 当前错误日志名称 -->
+    <define name="log_current_error" class="com.kingsley.log.config.ErrorCurrentConfig"/>
+    <!-- 归档错误日志名称 -->
+    <define name="log_gz_error" class="com.kingsley.log.config.ErrorZipConfig"/>
+    <!-- 错误日志格式 -->
+    <define name="error_pattern" class="com.kingsley.log.config.ErrorPatternConfig"/>
+
+    <!-- 日志上下文 -->
+    <contextName>${context_name}</contextName>
+
+    <!--控制台日志 -->
+    <appender name="console_log" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <pattern>${console_pattern}</pattern>
+            <!-- 设置字符集 -->
+            <charset>UTF-8</charset>
         </encoder>
+        <!--临界值日志过滤级别配置 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- 在日志配置级别的基础上过滤指定级别以下的日志 -->
+            <level>${console_level}</level>
+        </filter>
     </appender>
 
-    <if condition='property("IS_USE_FILE").contains("true")'>
+    <if condition='property("is_use_file").contains("true")'>
         <then>
-            <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-                <file>${LOG_DIR}/${SUMMARY_NAME}.log</file>
+            <!-- 文件日志 -->
+            <appender name="file_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${log_dir}/${log_current_all}</file>
                 <append>true</append>
-                <encoder>
-                    <pattern>${FILE_LOG_PATTERN}</pattern>
-                </encoder>
-            </appender>
-
-            <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <!-- 支持多JVM同时操作同一个日志文件 -->
+                <prudent>false</prudent>
+                <!-- 设置日志归档 -->
                 <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                    <fileNamePattern>${LOG_DIR}/${DAY_LOG_FILE_NAME_DEFAULT_PATTERN}.log</fileNamePattern>
-                    <maxHistory>30</maxHistory>
+                    <!-- 归档周期 -->
+                    <fileNamePattern>${log_dir}/${log_gz_all}</fileNamePattern>
+                    <!--日志文件保留天数-->
+                    <maxHistory>${log_remain}</maxHistory>
                 </rollingPolicy>
+                <!-- 临界值日志过滤级别配置 -->
+                <filter class="ch.qos.logback.classic.filter.ThresholdFilter"><!-- 只打印DEBUG日志 -->
+                    <!-- 在日志配置级别的基础上过滤掉info级别以下的日志 -->
+                    <level>${file_level}</level>
+                </filter>
                 <encoder>
-                    <pattern>${FILE_LOG_PATTERN}</pattern>
+                    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+                    <pattern>${file_pattern}</pattern>
+                    <!-- 设置字符集 -->
+                    <charset>UTF-8</charset>
                 </encoder>
             </appender>
         </then>
     </if>
 
-    <!-- 使用root的appender-ref -->
-    <!--<logger name="com.kingsley.**" level="DEBUG" additivity="false">-->
-    <!--    <appender-ref ref="STDOUT"/>-->
-    <!--</logger>-->
+    <!-- 单独记录错误日志 -->
+    <if condition='property("alone_error_log").contains("true")'>
+        <then>
+            <!-- Error 日志 -->
+            <appender name="error_file_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${log_dir}/${log_current_error}</file>
+                <append>true</append>
+                <!-- 支持多JVM同时操作同一个日志文件 -->
+                <prudent>false</prudent>
+                <!-- 设置日志归档 -->
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                    <FileNamePattern>${log_dir}/${log_gz_error}</FileNamePattern>
+                    <!-- 日志在磁盘上保留天数 -->
+                    <maxHistory>${log_remain}</maxHistory>
+                </rollingPolicy>
+                <!-- 过滤器，只ACCEPT接收ERROR级别的日志，其它日志级别都DENY拒绝 -->
+                <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                    <level>ERROR</level>
+                    <onMatch>ACCEPT</onMatch>
+                    <onMismatch>DENY</onMismatch>
+                </filter>
+                <!-- 日志输出格式 -->
+                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                    <pattern>${error_pattern}</pattern>
+                    <!-- 设置字符集 -->
+                    <charset>UTF-8</charset>
+                </encoder>
+            </appender>
+        </then>
+    </if>
 
-    <root level="${LOG_LEVEL}">
-        <appender-ref ref="STDOUT"/>
-        <if condition='property("IS_USE_FILE").contains("true")'>
+    <root level="${console_level}" addtivity="true">
+        <appender-ref ref="console_log"/>
+    </root>
+
+    <root level="${file_level}" addtivity="true">
+        <if condition='property("is_use_file").contains("true")'>
             <then>
-                <appender-ref ref="FILE"/>
-                <appender-ref ref="RollingFile"/>
+                <appender-ref ref="file_log"/>
+            </then>
+        </if>
+        <!-- 单独记录错误日志 -->
+        <if condition='property("alone_error_log").contains("true")'>
+            <then>
+                <appender-ref ref="error_file_log"/>
             </then>
         </if>
     </root>
+
 </configuration>
