@@ -1,12 +1,6 @@
 package com.kingsley.log;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 
 import static com.kingsley.log.parser.ConfigParser.baseConfig;
@@ -15,18 +9,10 @@ import static com.kingsley.log.parser.ConfigParser.baseConfig;
  * @author kingsley
  */
 @Slf4j
-@Component
-@Configuration
-@ContextConfiguration
-@ComponentScan("com.kingsley.log.config")
-public class LogConfiguration implements ApplicationContextAware {
+@ContextConfiguration(locations = "classpath:logContext.xml")
+public class LogConfiguration {
 
     public LogConfiguration() {
-        this.showConfig();
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext context) throws BeansException {
         this.showConfig();
     }
 
